@@ -145,7 +145,7 @@ from transformers.modeling_outputs import (
 )
 
 
-from transformer_encoder import TransformerEncoder
+from nn import TransformerEncoder
 
 
 # ---------------------------------------------- Multimodal Context Aware Attention ----------------------------------------------
@@ -227,6 +227,7 @@ class MAF(nn.Module):
         self.acoustic_gate = nn.Linear(2*dim_model, dim_model)
         self.visual_gate = nn.Linear(2*dim_model, dim_model)
         self.dropout_layer = nn.Dropout(dropout_rate)
+        '''Dropout drops a neuron with the dropout rate provided and is used to avoid overfitting while training'''
         self.final_layer_norm = nn.LayerNorm(dim_model)
 
         
@@ -249,7 +250,8 @@ class MAF(nn.Module):
                                                     context=acoustic_context)
         
         # Video as Context for Attention
-        visual_context = visual_context.permute(0, 2, 1)
+        visual_context = visual_context.permute(0, 2, 1) # to reshape the tensor from [batch_size, features, sequence_length] 
+        # to [batch_size, sequence_length, features].
         visual_context = self.visual_context_transform(visual_context)
         visual_context = visual_context.permute(0, 2, 1)
         
