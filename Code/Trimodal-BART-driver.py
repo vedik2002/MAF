@@ -145,7 +145,7 @@ from transformers.modeling_outputs import (
 )
 
 
-from nn import TransformerEncoder
+from torch.nn import TransformerEncoder
 
 
 # ---------------------------------------------- Multimodal Context Aware Attention ----------------------------------------------
